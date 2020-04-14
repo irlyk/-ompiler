@@ -35,4 +35,4 @@ main(){
 
 ### 3. Пример дерева разбора с помощью ***#grun***
 
-[grun tree](https://github.com/irlyk/Compiler/blob/master/image.png)
+![grun tree](https://github.com/irlyk/Compiler/blob/master/image.png)
