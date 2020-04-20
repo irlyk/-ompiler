@@ -7,7 +7,7 @@ compilationUnit
 
 
 functions
-    :   'def' varname '(' expressionList ')' block ('def' varname '(' expressionList ')' block)*
+    :   'def' varname '(' parameterList ')' block ('def' varname '(' parameterList ')' block)*
     ;
 
 
@@ -36,9 +36,29 @@ statment
     |   callMethode ';'
     |   expression ';'
     |   print ';'
-//    |   ifStatment
+    |   ifStatment
+    |   assigment
     // 'for' statment
     // 'while' statment
+    ;
+
+ifStatment
+    :   'if' '(' conclusionList ')' block ('else' block)?
+    ;
+
+conclusionList
+    :   conclusion (pob=('and' | 'or') conclusion)*
+    ;
+
+conclusion
+    :   expression
+    |   callMethode
+    |   expression '==' expression
+    |   expression '>' expression
+    |   expression '<' expression
+    |   expression '>=' expression
+    |   expression '<=' expression
+    |   expression '!=' expression
     ;
 
 
@@ -52,32 +72,52 @@ print
 
 
 varDeclaration
-    :   type expression
+    :   type varname ('=' expression)?
     ;
 
+assigment
+    :   varname '=' expression
+    ;
 
 expressionList
     :   (expression (',' expression)*)?
     ;
 
+parameterList
+    :   (varDeclaration (',' varDeclaration)*)?
+    ;
 
 expression
-    :   varname
-    |   expression '=' expression
-    |   expression '*' expression
-    |   expression '/' expression
-    |   expression '+' expression
-    |   expression '-' expression
-    |   expression '(' expression ')'
-    |   literal
+    :   assigment # AssigmentExpression
+    |   callMethode # CallMethodeExpression
+    |   expression op = ('*' | '/' | '%') expression # MultipliesExpression
+    |   expression  op = ( '+' | '-' ) expression # SummExpression
+    |   varname # VarNameExpression
+    |   literal # LiteralExpression
+    |   '(' expression ')' # ParenExpression
     ;
+//    :   literal # literals
+//    |   callMethode # methodeCall
+//    |   varname # var
+//    |   expression '=' expression # assigment
+//    |   expression '*' expression # multiply
+//    |   expression '/' expression # divide
+//    |   expression '+' expression # summ
+//    |   expression '-' expression # difference
+//    |   expression '(' expression ')' # parenExpression
+//    ;
 
 
 literal
-    :   NUMBER
+    :   BOOL_LITERAL
+    |   NUMBER
     |   floatLiteral
-    |   CHAR_LITERAL
-    |   BOOL_LITERAL
+    |   charLiteral
+    ;
+
+
+charLiteral
+    :   '\'' LETTERS '\''
     ;
 
 
@@ -95,6 +135,12 @@ type
     ;
 
 
+BOOL_LITERAL
+    :   'true'
+    |   'false'
+    ;
+
+
 varname
    : LETTERS (LETTERS | NUMBER )*
    ;
@@ -109,16 +155,6 @@ NUMBER
     :   [0-9] ([0-9])*
     ;
 
-
-CHAR_LITERAL
-    :   LETTERS
-    ;
-
-
-BOOL_LITERAL
-    :   'true'
-    |   'false'
-    ;
 
 
 // Whitespace and comments

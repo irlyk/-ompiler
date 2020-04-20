@@ -2,13 +2,40 @@ const int a = 0;
 const int b = 0.3;
 const int c = a + b;
 
-def funcName(){
-    print(a + b);
+// Test объявления функции и передачи параметров
+def funcName(int a, float b){
+    print( a + b );
 }
 
 main(){
+
+    // тест присваивания
     int g = 34;
-    int h = funcName(g) + 5;
+
+    // тест инициализации char
+    char c = 'a';
+
+    // тест вызова функции
+    int h = funcName(a, 3) + 5;
+
+    // test ifStatment
+    if (g == h) {
+        print(g);
+    }
+
+    //test 'else' and 'true/false' in ifStatment
+    if (true) {
+        g = 33;
+    } else {
+        g = 228;
+    }
+
+    //test 'and' in ifStatment
+    if (g > h and g != h){
+        print(g);
+    }
+
+    // тест print(a, b, call())
     print(h);
-    print(3, 4);
+    print(3, 4, funcName(a, b));
 }
