@@ -53,6 +53,42 @@ public interface MLLVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitStatment(MLLParser.StatmentContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link MLLParser#ifStatment}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitIfStatment(MLLParser.IfStatmentContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link MLLParser#conclusionList}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitConclusionList(MLLParser.ConclusionListContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link MLLParser#forStatment}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitForStatment(MLLParser.ForStatmentContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link MLLParser#forInside}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitForInside(MLLParser.ForInsideContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link MLLParser#whileStatment}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitWhileStatment(MLLParser.WhileStatmentContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link MLLParser#conclusion}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitConclusion(MLLParser.ConclusionContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link MLLParser#print}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -65,23 +101,84 @@ public interface MLLVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitVarDeclaration(MLLParser.VarDeclarationContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link MLLParser#assigment}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAssigment(MLLParser.AssigmentContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link MLLParser#expressionList}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitExpressionList(MLLParser.ExpressionListContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link MLLParser#expression}.
+	 * Visit a parse tree produced by {@link MLLParser#parameterList}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitExpression(MLLParser.ExpressionContext ctx);
+	T visitParameterList(MLLParser.ParameterListContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code SummExpression}
+	 * labeled alternative in {@link MLLParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSummExpression(MLLParser.SummExpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code CallMethodeExpression}
+	 * labeled alternative in {@link MLLParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCallMethodeExpression(MLLParser.CallMethodeExpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code VarNameExpression}
+	 * labeled alternative in {@link MLLParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitVarNameExpression(MLLParser.VarNameExpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code LiteralExpression}
+	 * labeled alternative in {@link MLLParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitLiteralExpression(MLLParser.LiteralExpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code ParenExpression}
+	 * labeled alternative in {@link MLLParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitParenExpression(MLLParser.ParenExpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code MultipliesExpression}
+	 * labeled alternative in {@link MLLParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitMultipliesExpression(MLLParser.MultipliesExpressionContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code AssigmentExpression}
+	 * labeled alternative in {@link MLLParser#expression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAssigmentExpression(MLLParser.AssigmentExpressionContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link MLLParser#literal}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitLiteral(MLLParser.LiteralContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link MLLParser#charLiteral}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCharLiteral(MLLParser.CharLiteralContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link MLLParser#floatLiteral}.
 	 * @param ctx the parse tree

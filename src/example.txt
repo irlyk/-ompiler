@@ -38,4 +38,25 @@ main(){
     // тест print(a, b, call())
     print(h);
     print(3, 4, funcName(a, b));
+
+
+    // тест while ( a > b )
+    while ( a > b and b == true) {
+        print(a + 1);
+    }
+
+    //тест for 1
+    for (int i = 0; i < 10; i = i + 1) {
+        print(i);
+    }
+
+    //тест for 2
+    for (int i, int j; i < 10; i = i + 1) {
+            print(i);
+    }
+
+    //тест for 3
+    for (i, int j = getIntI(); i < 10; i = i + 1) {
+                print(i);
+    }
 }

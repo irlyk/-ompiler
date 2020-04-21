@@ -38,8 +38,8 @@ statment
     |   print ';'
     |   ifStatment
     |   assigment
-    // 'for' statment
-    // 'while' statment
+    |   whileStatment
+    |   forStatment
     ;
 
 ifStatment
@@ -48,6 +48,23 @@ ifStatment
 
 conclusionList
     :   conclusion (pob=('and' | 'or') conclusion)*
+    ;
+
+
+forStatment
+    :   'for' '(' forInside ')' block
+    ;
+
+forInside
+    :   forInit ';' conclusionList ';' expression
+    ;
+
+forInit
+    :  (varDeclaration | expression) (',' (varDeclaration | expression))*
+    ;
+
+whileStatment
+    :   'while' '(' conclusionList ')' block
     ;
 
 conclusion
@@ -65,10 +82,6 @@ conclusion
 print
     :   'print' '(' expressionList ')'
     ;
-
-// ifStatment
-//     :   'if (' conclusion ')' block ( 'else' block)?
-//     ;
 
 
 varDeclaration
