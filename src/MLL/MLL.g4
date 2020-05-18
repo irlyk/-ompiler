@@ -38,16 +38,42 @@ statment
     |   print ';'
     |   ifStatment
     |   assigment
-    // 'for' statment
-    // 'while' statment
+    |   whileStatment
+    |   forStatment
     ;
+
+
+
+
+print
+    :   'print' '(' expressionList ')'
+    ;
+
 
 ifStatment
     :   'if' '(' conclusionList ')' block ('else' block)?
     ;
 
+
 conclusionList
     :   conclusion (pob=('and' | 'or') conclusion)*
+    ;
+
+
+forStatment
+    :   'for' '(' forInside ')' block
+    ;
+
+forInside
+    :   forInit ';' conclusionList ';' expression
+    ;
+
+forInit
+    :  (varDeclaration | expression) (',' (varDeclaration | expression))*
+    ;
+
+whileStatment
+    :   'while' '(' conclusionList ')' block
     ;
 
 conclusion
@@ -62,18 +88,10 @@ conclusion
     ;
 
 
-print
-    :   'print' '(' expressionList ')'
-    ;
-
-// ifStatment
-//     :   'if (' conclusion ')' block ( 'else' block)?
-//     ;
-
-
 varDeclaration
     :   type varname ('=' expression)?
     ;
+
 
 assigment
     :   varname '=' expression
@@ -87,6 +105,7 @@ parameterList
     :   (varDeclaration (',' varDeclaration)*)?
     ;
 
+
 expression
     :   assigment # AssigmentExpression
     |   callMethode # CallMethodeExpression
@@ -96,25 +115,23 @@ expression
     |   literal # LiteralExpression
     |   '(' expression ')' # ParenExpression
     ;
-//    :   literal # literals
-//    |   callMethode # methodeCall
-//    |   varname # var
-//    |   expression '=' expression # assigment
-//    |   expression '*' expression # multiply
-//    |   expression '/' expression # divide
-//    |   expression '+' expression # summ
-//    |   expression '-' expression # difference
-//    |   expression '(' expression ')' # parenExpression
-//    ;
 
 
 literal
-    :   BOOL_LITERAL
-    |   NUMBER
+    :   boolLiteral
+    |   intLiteral
     |   floatLiteral
     |   charLiteral
     ;
 
+intLiteral
+    :   NUMBER
+    ;
+
+boolLiteral
+    :   'true'
+    |   'false'
+    ;
 
 charLiteral
     :   '\'' LETTERS '\''
@@ -130,15 +147,11 @@ type
     :   'int'
     |   'char'
     |   'float'
-    |   'double'
     |   'bool'
     ;
 
 
-BOOL_LITERAL
-    :   'true'
-    |   'false'
-    ;
+
 
 
 varname
