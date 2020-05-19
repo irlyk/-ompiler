@@ -16,10 +16,8 @@ public class Main {
         try {
             ANTLRInputStream input = new ANTLRInputStream(
                     //new FileInputStream(args[0])
-                    new FileInputStream(new File("src/example.txt"))
+                    new FileInputStream(new File("src/expl2"))
             );
-            Character a = 'a';
-            System.out.println(a);
             MLLLexer lexer = new MLLLexer(input);
             MLLParser parser = new MLLParser(new CommonTokenStream(lexer));
             ParseTree tree = parser.compilationUnit();

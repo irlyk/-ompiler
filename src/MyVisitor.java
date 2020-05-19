@@ -12,6 +12,19 @@ public class MyVisitor extends MLLBaseVisitor<Object> {
     Stack <HashMap <String, Object>> currentStack;
     HashMap<String, Object> currentTable;
 
+    private Object getVariable(String varName) throws Exception {
+        for (HashMap<String, Object> hm : currentStack) {
+            if (hm.containsKey(varName)){
+                return hm.get(varName);
+            }
+        }
+        if (consts.containsKey(varName)) {
+            return consts.get(varName);
+        }
+
+        throw new Exception("No such variable in the table");
+    }
+
     @Override public Object visitConsts(MLLParser.ConstsContext ctx) {
         currentTable = consts;
         return visitChildren(ctx);
@@ -32,6 +45,7 @@ public class MyVisitor extends MLLBaseVisitor<Object> {
 
     @Override
     public Object visitMainProg(MLLParser.MainProgContext ctx) {
+        currentStack = tables;
         return visitChildren(ctx);
     }
 
@@ -44,12 +58,28 @@ public class MyVisitor extends MLLBaseVisitor<Object> {
     public Object visitVarDeclaration(MLLParser.VarDeclarationContext ctx) {
         String varName = ctx.varname().getText();
         String type = ctx.type().getText();
-        //Object value = visit(ctx.expression());
-        //currentTable.put(varName, value);
-        //System.out.println("VarDecalaration: " + type + " " + varName + " " + value.toString());
-        return visitChildren(ctx);
+        Object value = null;
+        if (ctx.children.contains(ctx.expression()))
+            value = visit(ctx.expression());
+        currentTable.put(varName, value);
+        if (value != null)
+            System.out.println("VarDeclaration: " + type + " " + varName + " " + value.toString());
+        else
+            System.out.println("VarDeclaration (no value): " + type + " " + varName + " as NULL");
+        return null;
     }
 
+
+    @Override
+    public Object visitVarNameExpression(MLLParser.VarNameExpressionContext ctx) {
+        try {
+            System.out.println("GetVariable:" + ctx.getText() + " is: " + getVariable(ctx.getText()));
+            return getVariable(ctx.getText());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     @Override
     public Object visitLiteral(MLLParser.LiteralContext ctx) {
@@ -76,8 +106,8 @@ public class MyVisitor extends MLLBaseVisitor<Object> {
 
     @Override
     public Object visitCharLiteral(MLLParser.CharLiteralContext ctx) {
-        System.out.println("Char: " + ctx.getText());
-        return Character.codePointOf(ctx.getText());
+        System.out.println("Char: " + ctx.LETTERS().getText());
+        return new Character(ctx.LETTERS().getText().charAt(0));
     }
 
 
