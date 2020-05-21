@@ -2,18 +2,23 @@ import MLL.MLLBaseVisitor;
 import MLL.MLLParser;
 import org.antlr.v4.runtime.tree.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Stack;
+import java.util.concurrent.TransferQueue;
 
 public class MyVisitor extends MLLBaseVisitor<Object> {
-    HashMap<String, Object> consts = new HashMap<>();
-    Stack <HashMap<String, Object>> functionTables = new Stack<>();
-    Stack <HashMap<String, Object>> tables = new Stack<>();
-    Stack <HashMap <String, Object>> currentStack;
-    HashMap<String, Object> currentTable;
+    HashMap<String, TValue> consts = new HashMap<>();
+    Stack <HashMap<String, TValue>> functionTables = new Stack<>();
+    Stack <HashMap<String, TValue>> tables = new Stack<>();
+    Stack <HashMap <String, TValue>> currentStack;
+    HashMap<String, TValue> currentTable;
 
-    private Object getVariable(String varName) throws Exception {
-        for (HashMap<String, Object> hm : currentStack) {
+
+    private TValue getVariable(String varName) throws Exception {
+        if (currentTable.containsKey(varName))
+            return currentTable.get(varName);
+        for (HashMap<String, TValue> hm : currentStack) {
             if (hm.containsKey(varName)){
                 return hm.get(varName);
             }
@@ -25,28 +30,70 @@ public class MyVisitor extends MLLBaseVisitor<Object> {
         throw new Exception("No such variable in the table");
     }
 
-    @Override public Object visitConsts(MLLParser.ConstsContext ctx) {
+    @Override
+    public Object visitIfStatment(MLLParser.IfStatmentContext ctx) {
+        currentStack.push(currentTable);
+        System.out.println("if :");
+        visitChildren(ctx);
+        currentTable = currentStack.pop();
+        return null;
+    }
+
+    @Override
+    public Object visitConclusionList(MLLParser.ConclusionListContext ctx) {
+        return visitChildren(ctx);
+    }
+
+    @Override
+    public Object visitConclusion(MLLParser.ConclusionContext ctx) {
+        return null;
+    }
+
+
+
+
+    @Override
+    public Object visitSummExpression(MLLParser.SummExpressionContext ctx) {
+        TValue left = (TValue) visit(ctx.expression(0));
+        TValue right = (TValue) visit(ctx.expression(1));
+        switch (ctx.op.getText()){
+            case "+":
+                if (left.getType() && right.getType())
+                return left + right;
+                break;
+            case "-":
+                break;
+        }
+        return null;
+    }
+
+    @Override public Void visitConsts(MLLParser.ConstsContext ctx) {
         currentTable = consts;
-        return visitChildren(ctx);
+        visitChildren(ctx);
+        return null;
     }
 
     @Override
-    public Object visitCompilationUnit(MLLParser.CompilationUnitContext ctx) {
-        return visitChildren(ctx);
+    public Void visitCompilationUnit(MLLParser.CompilationUnitContext ctx) {
+        visitChildren(ctx);
+        return null;
     }
 
     @Override
-    public Object visitBlock(MLLParser.BlockContext ctx) {
-        HashMap<String, Object> currentBlocktable = new HashMap<>();
+    public Void visitBlock(MLLParser.BlockContext ctx) {
+        System.out.println("{");
+        HashMap<String, TValue> currentBlocktable = new HashMap<>();
         currentTable = currentBlocktable;
-        tables.add(currentBlocktable);
-        return visitChildren(ctx);
+        visitChildren(ctx);
+        System.out.println("}");
+        return null;
     }
 
     @Override
-    public Object visitMainProg(MLLParser.MainProgContext ctx) {
+    public Void visitMainProg(MLLParser.MainProgContext ctx) {
         currentStack = tables;
-        return visitChildren(ctx);
+        visitChildren(ctx);
+        return null;
     }
 
     @Override
@@ -55,23 +102,48 @@ public class MyVisitor extends MLLBaseVisitor<Object> {
     }
 
     @Override
-    public Object visitVarDeclaration(MLLParser.VarDeclarationContext ctx) {
+    public Void visitVarDeclaration(MLLParser.VarDeclarationContext ctx) {
         String varName = ctx.varname().getText();
         String type = ctx.type().getText();
         Object value = null;
-        if (ctx.children.contains(ctx.expression()))
-            value = visit(ctx.expression());
-        currentTable.put(varName, value);
-        if (value != null)
-            System.out.println("VarDeclaration: " + type + " " + varName + " " + value.toString());
-        else
-            System.out.println("VarDeclaration (no value): " + type + " " + varName + " as NULL");
+        TValue var = new TValue(varName, type, value);
+        if (ctx.children.contains(ctx.expression())) {
+            TValue r = (TValue) visit(ctx.expression());
+            if (r.getType() == var.getType())
+                var.setValue(r.getValue());
+            else {
+                System.out.println("!!!Error!!! type exception");
+                System.exit(-1);
+            }
+        }
+        currentTable.put(varName, var);
+        System.out.println(type + " " + varName + " " + var.toString());
         return null;
     }
 
 
     @Override
-    public Object visitVarNameExpression(MLLParser.VarNameExpressionContext ctx) {
+    public Object visitExpressionList(MLLParser.ExpressionListContext ctx) {
+        ArrayList<Object> result = new ArrayList<>();
+        for (int i = 0; i < ctx.expression().size(); i ++) {
+            result.add(visit(ctx.expression(i)));
+        }
+        return result;
+    }
+
+    @Override
+    public Void visitPrint(MLLParser.PrintContext ctx) {
+        ArrayList<Object> expList = (ArrayList<Object>) visit(ctx.expressionList());
+        String toPrint = "";
+        for (Object e : expList){
+            toPrint += e.toString() + " ";
+        }
+        System.out.println("print( " + toPrint + ")");
+        return null;
+    }
+
+    @Override
+    public TValue visitVarNameExpression(MLLParser.VarNameExpressionContext ctx) {
         try {
             System.out.println("GetVariable:" + ctx.getText() + " is: " + getVariable(ctx.getText()));
             return getVariable(ctx.getText());
@@ -82,31 +154,55 @@ public class MyVisitor extends MLLBaseVisitor<Object> {
     }
 
     @Override
-    public Object visitLiteral(MLLParser.LiteralContext ctx) {
+    public Object visitAssigmentExpression(MLLParser.AssigmentExpressionContext ctx) {
         return visitChildren(ctx);
     }
 
     @Override
-    public Object visitFloatLiteral(MLLParser.FloatLiteralContext ctx) {
-        System.out.println("Float: " + ctx.getText());
+    public Object visitAssigment(MLLParser.AssigmentContext ctx) {
+        try {
+            String varName = ctx.varname().getText();
+            TValue exp = (TValue) visit(ctx.expression());
+            if (getVariable(varName).getType() == exp.getType()) {
+                currentTable.put(varName, exp);
+                System.out.println("Assigment: " + varName + " " + exp.getType() + " " + exp.getValue());
+            } else
+                System.out.println("ASSIGMENT ERROR TYPE");
+        } catch (Exception e) {
+            System.out.println("!!!Error!!!");
+            System.out.println(e.fillInStackTrace());
+        }
+        return null;
+    }
+
+    @Override
+    public Object visitLiteral(MLLParser.LiteralContext ctx) {
+        if (ctx.boolLiteral() != null)
+            return new TValue("lit", "bool", visit(ctx.boolLiteral()));
+        else if (ctx.intLiteral() != null)
+            return new TValue("lit", "int", visit(ctx.intLiteral()));
+        else if (ctx.floatLiteral() != null)
+            return new TValue("lit", "float", visit(ctx.floatLiteral()));
+        else return new TValue("lit", "char", visit(ctx.charLiteral()));
+    }
+
+    @Override
+    public Float visitFloatLiteral(MLLParser.FloatLiteralContext ctx) {
         return Float.parseFloat(ctx.getText());
     }
 
     @Override
-    public Object visitIntLiteral(MLLParser.IntLiteralContext ctx) {
-        System.out.println("Integer: " + ctx.getText());
+    public Integer visitIntLiteral(MLLParser.IntLiteralContext ctx) {
         return Integer.parseInt(ctx.getText());
     }
 
     @Override
-    public Object visitBoolLiteral(MLLParser.BoolLiteralContext ctx) {
-        System.out.println("Boolean: " + ctx.getText());
+    public Boolean visitBoolLiteral(MLLParser.BoolLiteralContext ctx) {
         return Boolean.parseBoolean(ctx.getText());
     }
 
     @Override
-    public Object visitCharLiteral(MLLParser.CharLiteralContext ctx) {
-        System.out.println("Char: " + ctx.LETTERS().getText());
+    public Character visitCharLiteral(MLLParser.CharLiteralContext ctx) {
         return new Character(ctx.LETTERS().getText().charAt(0));
     }
 
