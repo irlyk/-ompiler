@@ -95,11 +95,40 @@ public interface MLLVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitWhileStatment(MLLParser.WhileStatmentContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link MLLParser#conclusion}.
+	 * Visit a parse tree produced by the {@code ExpConclusin}
+	 * labeled alternative in {@link MLLParser#conclusion}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitConclusion(MLLParser.ConclusionContext ctx);
+	T visitExpConclusin(MLLParser.ExpConclusinContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code CallMethodeConlusin}
+	 * labeled alternative in {@link MLLParser#conclusion}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCallMethodeConlusin(MLLParser.CallMethodeConlusinContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code EqualsConclusion}
+	 * labeled alternative in {@link MLLParser#conclusion}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitEqualsConclusion(MLLParser.EqualsConclusionContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code MoreThenConclusion}
+	 * labeled alternative in {@link MLLParser#conclusion}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitMoreThenConclusion(MLLParser.MoreThenConclusionContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code LessThenConclusion}
+	 * labeled alternative in {@link MLLParser#conclusion}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitLessThenConclusion(MLLParser.LessThenConclusionContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link MLLParser#varDeclaration}.
 	 * @param ctx the parse tree

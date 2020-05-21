@@ -148,15 +148,65 @@ public interface MLLListener extends ParseTreeListener {
 	 */
 	void exitWhileStatment(MLLParser.WhileStatmentContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link MLLParser#conclusion}.
+	 * Enter a parse tree produced by the {@code ExpConclusin}
+	 * labeled alternative in {@link MLLParser#conclusion}.
 	 * @param ctx the parse tree
 	 */
-	void enterConclusion(MLLParser.ConclusionContext ctx);
+	void enterExpConclusin(MLLParser.ExpConclusinContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link MLLParser#conclusion}.
+	 * Exit a parse tree produced by the {@code ExpConclusin}
+	 * labeled alternative in {@link MLLParser#conclusion}.
 	 * @param ctx the parse tree
 	 */
-	void exitConclusion(MLLParser.ConclusionContext ctx);
+	void exitExpConclusin(MLLParser.ExpConclusinContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code CallMethodeConlusin}
+	 * labeled alternative in {@link MLLParser#conclusion}.
+	 * @param ctx the parse tree
+	 */
+	void enterCallMethodeConlusin(MLLParser.CallMethodeConlusinContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code CallMethodeConlusin}
+	 * labeled alternative in {@link MLLParser#conclusion}.
+	 * @param ctx the parse tree
+	 */
+	void exitCallMethodeConlusin(MLLParser.CallMethodeConlusinContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code EqualsConclusion}
+	 * labeled alternative in {@link MLLParser#conclusion}.
+	 * @param ctx the parse tree
+	 */
+	void enterEqualsConclusion(MLLParser.EqualsConclusionContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code EqualsConclusion}
+	 * labeled alternative in {@link MLLParser#conclusion}.
+	 * @param ctx the parse tree
+	 */
+	void exitEqualsConclusion(MLLParser.EqualsConclusionContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code MoreThenConclusion}
+	 * labeled alternative in {@link MLLParser#conclusion}.
+	 * @param ctx the parse tree
+	 */
+	void enterMoreThenConclusion(MLLParser.MoreThenConclusionContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code MoreThenConclusion}
+	 * labeled alternative in {@link MLLParser#conclusion}.
+	 * @param ctx the parse tree
+	 */
+	void exitMoreThenConclusion(MLLParser.MoreThenConclusionContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code LessThenConclusion}
+	 * labeled alternative in {@link MLLParser#conclusion}.
+	 * @param ctx the parse tree
+	 */
+	void enterLessThenConclusion(MLLParser.LessThenConclusionContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code LessThenConclusion}
+	 * labeled alternative in {@link MLLParser#conclusion}.
+	 * @param ctx the parse tree
+	 */
+	void exitLessThenConclusion(MLLParser.LessThenConclusionContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link MLLParser#varDeclaration}.
 	 * @param ctx the parse tree

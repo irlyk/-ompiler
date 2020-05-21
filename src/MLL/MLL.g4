@@ -77,14 +77,11 @@ whileStatment
     ;
 
 conclusion
-    :   expression
-    |   callMethode
-    |   expression '==' expression
-    |   expression '>' expression
-    |   expression '<' expression
-    |   expression '>=' expression
-    |   expression '<=' expression
-    |   expression '!=' expression
+    :   expression # ExpConclusin
+    |   callMethode # CallMethodeConlusin
+    |   expression op = ('==' | '!=') expression # EqualsConclusion
+    |   expression op = ('>' | '>=' )  expression # MoreThenConclusion
+    |   expression op = ('<' | '<=' ) expression # LessThenConclusion
     ;
 
 

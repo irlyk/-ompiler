@@ -184,13 +184,61 @@ public class MLLBaseListener implements MLLListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterConclusion(MLLParser.ConclusionContext ctx) { }
+	@Override public void enterExpConclusin(MLLParser.ExpConclusinContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitConclusion(MLLParser.ConclusionContext ctx) { }
+	@Override public void exitExpConclusin(MLLParser.ExpConclusinContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterCallMethodeConlusin(MLLParser.CallMethodeConlusinContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitCallMethodeConlusin(MLLParser.CallMethodeConlusinContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterEqualsConclusion(MLLParser.EqualsConclusionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitEqualsConclusion(MLLParser.EqualsConclusionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterMoreThenConclusion(MLLParser.MoreThenConclusionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitMoreThenConclusion(MLLParser.MoreThenConclusionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterLessThenConclusion(MLLParser.LessThenConclusionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitLessThenConclusion(MLLParser.LessThenConclusionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
