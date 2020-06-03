@@ -1,8 +1,8 @@
 package CodeGen.ast;
 
 import CodeGen.Compiler.Compiler;
-import jdk.internal.org.objectweb.asm.Label;
-import jdk.internal.org.objectweb.asm.Opcodes;
+import org.objectweb.asm.Label;
+import org.objectweb.asm.Opcodes;
 import symbol.Type;
 
 public class If extends Stmt {

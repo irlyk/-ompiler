@@ -1,12 +1,5 @@
 package CodeGen.ast;
-
-import CodeGen.Compiler.CValue;
-import CodeGen.Compiler.Compiler;
-import jdk.internal.org.objectweb.asm.Opcodes;
 import symbol.Type;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class ObjConstant extends Stmt {
 

@@ -1,9 +1,9 @@
 package CodeGen.ast;
 
 import CodeGen.Compiler.Compiler;
+import org.objectweb.asm.Opcodes;
 import symbol.Type;
 
-import static jdk.internal.org.objectweb.asm.Opcodes.*;
 
 public class Arith extends Op {
 
@@ -20,20 +20,20 @@ public class Arith extends Op {
         expr2.genJVM();
         switch (op) {
             case "+":
-                if (Type.Float.equals(type)) Compiler.mv.visitInsn(FADD);
-                else Compiler.mv.visitInsn(IADD);
+                if (Type.Float.equals(type)) Compiler.mv.visitInsn(Opcodes.FADD);
+                else Compiler.mv.visitInsn(Opcodes.IADD);
                 break;
             case "-":
-                if (Type.Float.equals(type)) Compiler.mv.visitInsn(FSUB);
-                else Compiler.mv.visitInsn(ISUB);
+                if (Type.Float.equals(type)) Compiler.mv.visitInsn(Opcodes.FSUB);
+                else Compiler.mv.visitInsn(Opcodes.ISUB);
                 break;
             case "*":
-                if (Type.Float.equals(type)) Compiler.mv.visitInsn(FMUL);
-                else Compiler.mv.visitInsn(IMUL);
+                if (Type.Float.equals(type)) Compiler.mv.visitInsn(Opcodes.FMUL);
+                else Compiler.mv.visitInsn(Opcodes.IMUL);
                 break;
             case "/":
-                if (Type.Float.equals(type)) Compiler.mv.visitInsn(FDIV);
-                else Compiler.mv.visitInsn(IDIV);
+                if (Type.Float.equals(type)) Compiler.mv.visitInsn(Opcodes.FDIV);
+                else Compiler.mv.visitInsn(Opcodes.IDIV);
                 break;
         }
 

@@ -1,7 +1,8 @@
 package CodeGen.ast;
 
 import CodeGen.Compiler.Compiler;
-import jdk.internal.org.objectweb.asm.Label;
+import org.objectweb.asm.Label;
+
 
 public class Seq extends Stmt {
 
