@@ -19,6 +19,5 @@ public class Id extends Expr {
                 } else if (Type.Float.equals(type)){
                         Compiler.mv.visitIntInsn(Opcodes.FLOAD, offset);
                 }
-                System.out.println("LOAD_" + offset);
         }
 }

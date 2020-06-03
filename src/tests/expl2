@@ -1,12 +1,5 @@
 main(){
-    bool a = false;
-
-    int j = 3;
-    int b = 4;
-
-    if ( j < b) {
-        int a = 4;
-        print (a);
-    }
-    print (a);
+    int a = 0;
+    a = 3 + 3 * (3 + 3); // 21
+    print(a);
     }

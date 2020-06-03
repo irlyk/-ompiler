@@ -48,7 +48,7 @@ public class MyVisitor extends MLLBaseVisitor<Node> {
 
     @Override
     public Node visitCompilationUnit(MLLParser.CompilationUnitContext ctx) {
-        Stmt con = (Stmt) visit(ctx.consts());
+        // Stmt con = (Stmt) visit(ctx.consts());
         Stmt main = (Stmt)visit(ctx.mainProg());
 
         // jvm код
