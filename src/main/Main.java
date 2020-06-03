@@ -1,6 +1,5 @@
 package main;
 
-import CodeGen.ast.Stmt;
 import MLL.MLLLexer;
 import MLL.MLLParser;
 import org.antlr.v4.runtime.ANTLRInputStream;
@@ -8,10 +7,8 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
 import visitor.MyVisitor;
 
-import javax.imageio.IIOException;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class Main {
@@ -31,10 +28,6 @@ public class Main {
             ParseTree tree = parser.compilationUnit();
             MyVisitor visitor = new MyVisitor();
             visitor.visit(tree);
-        } catch (IIOException e) {
-            e.printStackTrace();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
